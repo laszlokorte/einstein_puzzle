@@ -31,8 +31,7 @@ defmodule EinsteinPuzzle do
   def valid_relations(selection, rel_rules) do
     rel_rules
     |> Enum.all?(fn {propa, va, propb, vb, relprop, check} ->
-      case {find_prop(selection, propa, va, relprop),
-            find_prop(selection, propb, vb, relprop)} do
+      case {find_prop(selection, propa, va, relprop), find_prop(selection, propb, vb, relprop)} do
         {nil, _} -> true
         {_, nil} -> true
         {a, b} -> check.(a, b)

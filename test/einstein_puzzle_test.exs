@@ -32,47 +32,47 @@ defmodule EinsteinPuzzleTest do
   ]
 
   @solution MapSet.new([
-    %{
-      color: "yellow",
-      house: 1,
-      nationality: "Norwegian",
-      drink: "water",
-      cigarette: "Kools",
-      pet: "fox"
-    },
-    %{
-      color: "blue",
-      house: 2,
-      nationality: "Ukrainian",
-      drink: "tea",
-      cigarette: "Chesterfields",
-      pet: "horse"
-    },
-    %{
-      color: "red",
-      house: 3,
-      nationality: "Englishman",
-      drink: "milk",
-      cigarette: "OldGold",
-      pet: "snails"
-    },
-    %{
-      color: "ivory",
-      house: 4,
-      nationality: "Spaniard",
-      drink: "orange_juice",
-      cigarette: "LuckyStrike",
-      pet: "dog"
-    },
-    %{
-      color: "green",
-      house: 5,
-      nationality: "Japanese",
-      drink: "coffee",
-      cigarette: "Parliament",
-      pet: "zebra"
-    }
-  ])
+              %{
+                color: "yellow",
+                house: 1,
+                nationality: "Norwegian",
+                drink: "water",
+                cigarette: "Kools",
+                pet: "fox"
+              },
+              %{
+                color: "blue",
+                house: 2,
+                nationality: "Ukrainian",
+                drink: "tea",
+                cigarette: "Chesterfields",
+                pet: "horse"
+              },
+              %{
+                color: "red",
+                house: 3,
+                nationality: "Englishman",
+                drink: "milk",
+                cigarette: "OldGold",
+                pet: "snails"
+              },
+              %{
+                color: "ivory",
+                house: 4,
+                nationality: "Spaniard",
+                drink: "orange_juice",
+                cigarette: "LuckyStrike",
+                pet: "dog"
+              },
+              %{
+                color: "green",
+                house: 5,
+                nationality: "Japanese",
+                drink: "coffee",
+                cigarette: "Parliament",
+                pet: "zebra"
+              }
+            ])
 
   test "greets the world" do
     assert EinsteinPuzzle.solve(@domain, @single_rules, @relation_rules) == @solution
