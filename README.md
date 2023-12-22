@@ -5,27 +5,69 @@ Einstein Puzzle Solver
 
 ```elixir
 EinsteinPuzzle.solve([
-  house: [1, 2, 3, 4, 5],
-  nationality: ~w(Englishman Spaniard Ukrainian Norwegian Japanese),
-  drink: ~w(tea coffee milk orange_juice water),
-  cigarette: ~w(OldGold Kools Chesterfields LuckyStrike Parliament),
-  pet: ~w(dog snails fox horse zebra),
-  color: ~w(red green yellow blue ivory)
+  zelle: [1, 2, 3, 4, 5],
+  name: ~w(Henry James Ian John Ducan),
+  trinkt: ~w(Tee Wein Wodka Bier Scotch),
+  sport: ~w(Golf Solitär Poker Basketball Fußball),
+  waffe: ~w(Säbel Buschmesser Axt Flinte zebra),
+  farbe: ~w(Rot Grün Gelb Blau Weiss)
 ], [
-  [nationality: "Englishman", color: "red"],
-  [nationality: "Spaniard", pet: "dog"],
-  [drink: "coffee", color: "green"],
-  [nationality: "Ukrainian", drink: "tea"],
-  [cigarette: "OldGold", pet: "snails"],
-  [cigarette: "Kools", color: "yellow"],
-  [drink: "milk", house: 3],
-  [nationality: "Norwegian", house: 1],
-  [cigarette: "LuckyStrike", drink: "orange_juice"],
-  [nationality: "Japanese", cigarette: "Parliament"]
+  [name: "Henry", farbe: "Rot"],
+  [name: "James", waffe: "Säbel"],
+  [trinkt: "Wein", farbe: "Grün"],
+  [name: "Ian", trinkt: "Tee"],
+  [sport: "Golf", waffe: "Buschmesser"],
+  [sport: "Solitär", farbe: "Gelb"],
+  [trinkt: "Wodka", zelle: 3],
+  [name: "John", zelle: 1],
+  [sport: "Basketball", trinkt: "Bier"],
+  [name: "Ducan", sport: "Fußball"],
 ], [
-  {:color, "green", :color, "ivory", :house, &EinsteinPuzzle.right_of/2},
-  {:cigarette, "Chesterfields", :pet, "fox", :house, &EinsteinPuzzle.next_to/2},
-  {:cigarette, "Kools", :pet, "horse", :house, &EinsteinPuzzle.next_to/2},
-  {:nationality, "Norwegian", :color, "blue", :house, &EinsteinPuzzle.next_to/2}
+  {:farbe, "Grün", :farbe, "Weiss", :zelle, &EinsteinPuzzle.right_of/2},
+  {:sport, "Poker", :waffe, "Axt", :zelle, &EinsteinPuzzle.next_to/2},
+  {:sport, "Solitär", :waffe, "Flinte", :zelle, &EinsteinPuzzle.next_to/2},
+  {:name, "John", :farbe, "Blau", :zelle, &EinsteinPuzzle.next_to/2},
+  {:trinkt, "Scotch", :sport, "Poker", :zelle, &EinsteinPuzzle.next_to/2},
+]) # => MapSet.new([
+  %{
+    farbe: "Gelb",
+    zelle: 1,
+    name: "John",
+    trinkt: "Scotch",
+    sport: "Solitär",
+    waffe: "Axt"
+  },
+  %{
+    farbe: "Blau",
+    zelle: 2,
+    name: "Ian",
+    trinkt: "Tee",
+    sport: "Poker",
+    waffe: "Flinte"
+  },
+  %{
+    farbe: "Rot",
+    zelle: 3,
+    name: "Henry",
+    trinkt: "Wodka",
+    sport: "Golf",
+    waffe: "Buschmesser"
+  },
+  %{
+    farbe: "Weiss",
+    zelle: 4,
+    name: "James",
+    trinkt: "Bier",
+    sport: "Basketball",
+    waffe: "Säbel"
+  },
+  %{
+    farbe: "Grün",
+    zelle: 5,
+    name: "Ducan",
+    trinkt: "Wein",
+    sport: "Fußball",
+    waffe: "zebra"
+  }
 ])
 ```

@@ -11,7 +11,14 @@ defmodule EinsteinPuzzle do
     abs(b - a) == 1
   end
 
-  def valid_single(single, rules) do
+  def solve(domains, rules, rel_rules) do
+    goal_count = Enum.find_value(domains, &Enum.count(elem(&1, 1)))
+    combinations = combinations([%{}], domains) |> Enum.filter(&valid_single(&1, rules))
+    
+    find(combinations, goal_count, [], rel_rules) |> MapSet.new
+  end
+
+  defp valid_single(single, rules) do
     rules
     |> Enum.all?(fn
       rule ->
@@ -22,13 +29,13 @@ defmodule EinsteinPuzzle do
     end)
   end
 
-  def find_prop(selection, prop, val, relprop) do
+  defp find_prop(selection, prop, val, relprop) do
     Enum.find_value(selection, fn sol ->
       if Map.get(sol, prop) == val, do: Map.get(sol, relprop)
     end)
   end
 
-  def valid_relations(selection, rel_rules) do
+  defp valid_relations(selection, rel_rules) do
     rel_rules
     |> Enum.all?(fn {propa, va, propb, vb, relprop, check} ->
       case {find_prop(selection, propa, va, relprop), find_prop(selection, propb, vb, relprop)} do
@@ -39,53 +46,42 @@ defmodule EinsteinPuzzle do
     end)
   end
 
-  def valid_selection(sel, {single_rules, rel_rules}) do
-    all_different(sel) and Enum.all?(sel, &valid_single(&1, single_rules)) and
-      valid_relations(sel, rel_rules)
+  defp valid_selection(sel, rel_rules) do
+    valid_relations(sel, rel_rules) and all_different(sel)
   end
 
-  def combine(acc, []) do
+  defp combinations(acc, []) do
     acc
   end
 
-  def combine(acc, [{prop, domain} | rest]) do
+  defp combinations(acc, [{prop, domain} | rest]) do
     Enum.flat_map(domain, fn v ->
-      for a <- acc do
-        Map.put(a, prop, v)
-      end
+      Enum.map(acc, &Map.put(&1, prop, v))
     end)
-    |> combine(rest)
+    |> combinations(rest)
   end
 
-  def all_different([]), do: true
+  defp all_different([]), do: true
 
-  def all_different([head | rest] = sel) do
-    acc = Enum.map(head, fn {k, v} -> {k, MapSet.new([v])} end) |> Enum.into(Map.new())
+  defp all_different([head | rest] = sel) do
+    acc = head |> Enum.map(fn {k, v} -> {k, MapSet.new([v])} end) |> Map.new()
 
     rest
-    |> Enum.reduce(acc, fn s, acc ->
-      Map.merge(acc, s, fn _k, v1, v2 -> MapSet.put(v1, v2) end)
-    end)
-    |> Enum.all?(fn {_, m} -> MapSet.size(m) == Enum.count(sel) end)
+    |> Enum.reduce(acc, &Map.merge(&2, &1, fn _k, a, v2 -> MapSet.put(a, v2) end))
+    |> Enum.all?(&(MapSet.size(elem(&1, 1)) == Enum.count(sel)))
   end
 
-  def find(combinations, selection, rules) do
-    if Enum.count(selection) == 5 do
-      if valid_selection(selection, rules) do
-        selection
-      end
-    else
-      if valid_selection(selection, rules) do
-        combinations
-        |> Enum.find_value(fn c ->
-          find(combinations, [c | selection], rules)
-        end)
+  defp find(combinations, goal_count, selection, rel_rules) do
+    current_count = Enum.count(selection)
+    cond do
+      current_count > goal_count -> 
+        nil
+      current_count == goal_count -> 
+        if valid_selection(selection, rel_rules), do: selection
+      true -> 
+        if valid_selection(selection, rel_rules) do
+          Enum.find_value(combinations, &find(combinations, goal_count, [&1 | selection], rel_rules))
       end
     end
-  end
-
-  def solve(domains, rules, rel_rules) do
-    combinations = combine([%{}], domains) |> Enum.filter(&valid_single(&1, rules))
-    MapSet.new(find(combinations, [], {rules, rel_rules}))
   end
 end
