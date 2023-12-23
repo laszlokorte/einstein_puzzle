@@ -2,6 +2,13 @@
 
 Einstein Puzzle Solver
 
+## Run the Example
+
+```sh
+ mix run -e 'Example.run'
+```
+
+## Example output
 
 ```elixir
 EinsteinPuzzle.solve([
@@ -9,7 +16,7 @@ EinsteinPuzzle.solve([
   name: ~w(Henry James Ian John Ducan),
   trinkt: ~w(Tee Wein Wodka Bier Scotch),
   sport: ~w(Golf Solitär Poker Basketball Fußball),
-  waffe: ~w(Säbel Buschmesser Axt Flinte zebra),
+  waffe: ~w(Säbel Buschmesser Axt Flinte Pistole),
   farbe: ~w(Rot Grün Gelb Blau Weiss)
 ], [
   [name: "Henry", farbe: "Rot"],
@@ -67,7 +74,7 @@ EinsteinPuzzle.solve([
     name: "Ducan",
     trinkt: "Wein",
     sport: "Fußball",
-    waffe: "zebra"
+    waffe: "Pistole"
   }
 ])
 ```

@@ -7,7 +7,7 @@ defmodule EinsteinPuzzleTest do
     name: ~w(Henry James Ian John Ducan),
     trinkt: ~w(Tee Wein Wodka Bier Scotch),
     sport: ~w(Golf Solitär Poker Basketball Fußball),
-    waffe: ~w(Säbel Buschmesser Axt Flinte zebra),
+    waffe: ~w(Säbel Buschmesser Axt Flinte Pistole),
     farbe: ~w(Rot Grün Gelb Blau Weiss)
   ]
 
@@ -21,7 +21,7 @@ defmodule EinsteinPuzzleTest do
     [trinkt: "Wodka", zelle: 3],
     [name: "John", zelle: 1],
     [sport: "Basketball", trinkt: "Bier"],
-    [name: "Ducan", sport: "Fußball"],
+    [name: "Ducan", sport: "Fußball"]
   ]
 
   @relation_rules [
@@ -29,7 +29,7 @@ defmodule EinsteinPuzzleTest do
     {:sport, "Poker", :waffe, "Axt", :zelle, &EinsteinPuzzle.next_to/2},
     {:sport, "Solitär", :waffe, "Flinte", :zelle, &EinsteinPuzzle.next_to/2},
     {:name, "John", :farbe, "Blau", :zelle, &EinsteinPuzzle.next_to/2},
-    {:trinkt, "Scotch", :sport, "Poker", :zelle, &EinsteinPuzzle.next_to/2},
+    {:trinkt, "Scotch", :sport, "Poker", :zelle, &EinsteinPuzzle.next_to/2}
   ]
 
   @solution MapSet.new([
@@ -71,11 +71,11 @@ defmodule EinsteinPuzzleTest do
                 name: "Ducan",
                 trinkt: "Wein",
                 sport: "Fußball",
-                waffe: "zebra"
+                waffe: "Pistole"
               }
             ])
 
-  test "greets the world" do
+  test "puzzle is solved correctly" do
     assert EinsteinPuzzle.solve(@domain, @single_rules, @relation_rules) == @solution
   end
 end

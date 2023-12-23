@@ -14,8 +14,8 @@ defmodule EinsteinPuzzle do
   def solve(domains, rules, rel_rules) do
     goal_count = Enum.find_value(domains, &Enum.count(elem(&1, 1)))
     combinations = combinations([%{}], domains) |> Enum.filter(&valid_single(&1, rules))
-    
-    find(combinations, goal_count, [], rel_rules) |> MapSet.new
+
+    find(combinations, goal_count, [], rel_rules) |> MapSet.new()
   end
 
   defp valid_single(single, rules) do
@@ -73,15 +73,21 @@ defmodule EinsteinPuzzle do
 
   defp find(combinations, goal_count, selection, rel_rules) do
     current_count = Enum.count(selection)
+
     cond do
-      current_count > goal_count -> 
+      current_count > goal_count ->
         nil
-      current_count == goal_count -> 
+
+      current_count == goal_count ->
         if valid_selection(selection, rel_rules), do: selection
-      true -> 
+
+      true ->
         if valid_selection(selection, rel_rules) do
-          Enum.find_value(combinations, &find(combinations, goal_count, [&1 | selection], rel_rules))
-      end
+          Enum.find_value(
+            combinations,
+            &find(combinations, goal_count, [&1 | selection], rel_rules)
+          )
+        end
     end
   end
 end
